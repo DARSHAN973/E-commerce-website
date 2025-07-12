@@ -28,7 +28,9 @@ body {
       padding: 0 10px;
       font-size: 18px;
     }
-    
+    .navbar.sticky-top {
+    z-index: 1050; 
+    }
     /*logo style*/
     .premium-logo {
     font-family: 'Playfair Display', serif !important;
@@ -84,9 +86,113 @@ body {
     border-color: #c2185b;
     box-shadow: 0 0 0 0.2rem rgba(194,24,91,.25);
     }
+    /*mobile search bar*/
+    #mobileSearchBox input,
+    #mobileSearchBox button {
+    padding: 0.5rem 1rem;
+    }
+
     /*icon space*/
     .nav-icons .nav-link {
       padding-left: 20px;
       padding-right: 20px;
       font-size: 18px;
     }
+
+    /*slider style*/
+    /*
+    .carousel-item img {
+    height: 90vh;
+    object-fit: cover;
+    }*/
+    /* Responsive carousel image height */
+    #heroCarousel .carousel-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    @media (min-width: 576px) {
+      #heroCarousel .carousel-item img {
+        height: 350px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      #heroCarousel .carousel-item img {
+        height: 650px;
+      }
+    }
+    /*offer section style*/
+    .offer-section {
+    background: #f9f9f9;
+    }
+
+    .offer-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease-in-out;
+      height: 100%;
+      border: 1px solid #f1f1f1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .offer-box:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      transform: translateY(-5px);
+    }
+
+    .offer-box i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #e91e63;
+      transition: color 0.3s ease;
+    }
+
+    .offer-box:hover i {
+      color: #000;
+    }
+
+    .offer-box h5 {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #222;
+    }
+
+    .offer-box p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /*featured section style*/
+    /*heading style*/
+    h3.fancy-heading {
+    font-weight: 800;
+    font-size: 2rem;
+    background: linear-gradient(90deg, #3b3636, #ff0055);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+    .card img {
+    height: 300px;
+    object-fit: cover;
+    }
+
+    .card h5 {
+      font-weight: 600;
+    }
+
+    .card .btn {
+      border-radius: 20px;
+    }
+    .card .btn:hover {
+      background-color: #c2185b;
+      color: #fff;
+    }
+
