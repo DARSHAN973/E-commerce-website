@@ -61,3 +61,52 @@
     </div>
   </div>
 </footer>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+body {
+      font-family: 'Montserrat', sans-serif;
+    }
+  /*footer style*/
+footer a:hover {
+  color: #f8d47b !important;
+  transition: color 0.3s ease;
+}
+
+footer h5, footer h6 {
+  letter-spacing: 0.5px;
+}
+footer, footer p, footer h5, footer h6, footer a, footer li {
+  color: #f8f9fa !important;
+}
+footer li {
+  color: #f8f9fa !important;
+  list-style: none;
+}
+
+footer li a {
+  color: #f8f9fa !important;
+  text-decoration: none;
+}
+
+footer li a:hover {
+  color: #f8d47b !important;
+}
+/*pop up style*/
+.modal-content {
+  border-radius: 20px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  animation: pop 0.4s ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+</style>

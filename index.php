@@ -68,38 +68,13 @@ $result = mysqli_query($conn, $sql);
     <span class="carousel-control-next-icon"></span>
   </button>
 </div>
-<!--featured styles-->
-<section class="container py-5">
-  <h3 class="mb-4 text-center fancy-heading">✨ Stylique Selects</h3>
-  <div class="row g-4">
 
-    <?php while ($row = mysqli_fetch_assoc($result)) {
-      $finalPrice = $row['price'] - $row['discount'];
-    ?>
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="card shadow-sm h-100 ">
-        <div class="product-img-wrapper">
-          <img src="<?php echo $row['image']; ?>" class="product-img" alt="<?php echo $row['name']; ?>">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title"><?php echo $row['name']; ?></h5>
-
-          <p class="card-text">
-            ₹<?php echo $finalPrice; ?>
-            <?php if ($row['discount'] > 0) { ?>
-              <del class="text-muted ms-2">₹<?php echo $row['price']; ?></del>
-              <span class="badge bg-danger ms-1"><?php echo round(($row['discount'] / $row['price']) * 100); ?>% OFF</span>
-            <?php } ?>
-          </p>
-
-          <a href="product.php?id=<?php echo $row['id']; ?>" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
-      </div>
-    </div>
-    <?php } ?>
-
-  </div>
-</section>
+<?php 
+  $category = 'special';
+  $limit = 12;
+  $heading = "Stylique Featured Styles";
+  include 'includes/product-grid.php';
+?>
 <!-- Offers Section -->
 <section class="container py-5">
   <h3 class="mb-4 text-center fancy-heading">
