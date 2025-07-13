@@ -41,7 +41,7 @@
       <a class="nav-link d-lg-none" href="#" id="searchToggleBtn">
         <i class="fas fa-search"></i>
       </a>
-        <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
+        <a class="nav-link" href="#"><i class="fas fa-user "></i></a>
         <a class="nav-link position-relative" href="#">
           <i class="fas fa-shopping-cart"></i>
         </a>

@@ -135,11 +135,61 @@ $result = mysqli_query($conn, $sql);
         <a href="#" class="btn btn-light btn-sm mt-2">Explore</a>
       </div>
     </div>
-
   </div>
 </section>
-
-
+<!--Brands We Work With-->
+  <section class="container py-5 text-center">
+  <h5 class="mb-4 text-uppercase text-muted">Trusted by top fashion brands</h5>
+  <div class="d-flex justify-content-center flex-wrap gap-4">
+    <img src="images/adidas.png" alt="Brand 1" height="40">
+    <img src="images/h&m.png" alt="Brand 2" height="40">
+    <img src="images/nike.png" alt="Brand 3" height="40">
+    <img src="images/zara.png" alt="Brand 4" height="40">
+  </div>
+</section>
+<!--email subscription-->
+<section class="container py-5 text-center">
+  <h4 class="mb-3">🛍️ Stay in Style with Stylique</h4>
+  <p class="mb-4 text-muted">Subscribe to get exclusive offers & updates</p>
+  <form class="row justify-content-center" id="subscribeForm" action="includes/subscribe.php" method="POST">
+    <div class="col-md-6 col-lg-4">
+      <input type="email" name="email" id="subscriberEmail" class="form-control rounded-pill" placeholder="Enter your email">
+    </div>
+    <div class="col-md-2 mt-2 mt-md-0">
+      <button type="submit" class="btn btn-dark rounded-pill px-4">Subscribe</button>
+    </div>
+  </form>
+</section>
+<!--why shop with us-->
+<section class="container py-5 text-center">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <i class="fas fa-truck fa-2x mb-2 text-dark"></i>
+      <h6>Free Shipping</h6>
+      <p class="small text-muted">On orders over ₹999</p>
+    </div>
+    <div class="col-md-4">
+      <i class="fas fa-sync fa-2x mb-2 text-dark"></i>
+      <h6>Easy Returns</h6>
+      <p class="small text-muted">Within 7 days</p>
+    </div>
+    <div class="col-md-4">
+      <i class="fas fa-lock fa-2x mb-2 text-dark"></i>
+      <h6>Secure Payment</h6>
+      <p class="small text-muted">100% secure & encrypted</p>
+    </div>
+  </div>
+</section>
+<!--pop up modal for email subscription-->
+  <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <h5 class="modal-title mb-3" id="subscribeModalLabel">🎉 Congratulations!</h5>
+        <p class="mb-3">You're now subscribed to Stylique updates.</p>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+</div>
 
 
 </body>
