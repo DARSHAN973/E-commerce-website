@@ -1,7 +1,9 @@
 <?php
 $activePage = 'home';
-include 'includes/db.php';
 include 'includes/navbar.php';
+include 'includes/db.php';
+$sql = "SELECT * FROM products WHERE category = 'special' LIMIT 8";
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -66,118 +68,77 @@ include 'includes/navbar.php';
     <span class="carousel-control-next-icon"></span>
   </button>
 </div>
-<!--offer section-->
-<!--<section class="offer-section py-5">
-  <div class="container">
-    <section class="container py-5">
-      <div class="row g-4 text-center">
-        <div class="col-md-4">
-          <div class="offer-box">
-            <i class="fas fa-tags"></i>
-            <h5>Flat 30% Off</h5>
-            <p>On all new summer arrivals</p>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="offer-box">
-            <i class="fas fa-shipping-fast"></i>
-            <h5>Free Shipping</h5>
-            <p>On all orders above ₹999</p>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="offer-box">
-            <i class="fas fa-star"></i>
-            <h5>Premium Quality</h5>
-            <p>Styling that lasts, comfort that stays</p>
-          </div>
-        </div>
-      </div>
-  </section>
-  </div>
-</section>-->
-
 <!--featured styles-->
 <section class="container py-5">
   <h3 class="mb-4 text-center fancy-heading">✨ Stylique Selects</h3>
   <div class="row g-4">
+
+    <?php while ($row = mysqli_fetch_assoc($result)) {
+      $finalPrice = $row['price'] - $row['discount'];
+    ?>
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card shadow-sm h-100 ">
+        <div class="product-img-wrapper">
+          <img src="<?php echo $row['image']; ?>" class="product-img" alt="<?php echo $row['name']; ?>">
+        </div>
+        <div class="card-body text-center">
+          <h5 class="card-title"><?php echo $row['name']; ?></h5>
+
+          <p class="card-text">
+            ₹<?php echo $finalPrice; ?>
+            <?php if ($row['discount'] > 0) { ?>
+              <del class="text-muted ms-2">₹<?php echo $row['price']; ?></del>
+              <span class="badge bg-danger ms-1"><?php echo round(($row['discount'] / $row['price']) * 100); ?>% OFF</span>
+            <?php } ?>
+          </p>
+
+          <a href="product.php?id=<?php echo $row['id']; ?>" class="btn btn-dark btn-sm">Shop Now</a>
+        </div>
+      </div>
+    </div>
+    <?php } ?>
+
+  </div>
+</section>
+<!-- Offers Section -->
+<section class="container py-5">
+  <h3 class="mb-4 text-center fancy-heading">
+  <span style="font-size: 1.8rem;">🔥</span> <span class="text-danger">Today's Hot Offers</span>
+</h3>
+
+
+  <div class="row g-4">
     
-    <!-- Card 1 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product1.jpg" class="card-img-top" alt="Product 1">
-        <div class="card-body text-center">
-          <h5 class="card-title">Denim Layer Jacket</h5>
-          <p class="card-text">₹1,999 <del class="text-muted">₹2,499</del></p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
+    <!-- Offer 1 -->
+    <div class="col-md-6 col-lg-4">
+      <div class="offer-card p-4 text-center text-white" style="background: linear-gradient(135deg, #000000, #434343); border-radius: 1rem;">
+        <h5 class="mb-2">⚡ Flat 40% OFF</h5>
+        <p>On all Men’s Jackets</p>
+        <a href="#" class="btn btn-light btn-sm mt-2">Grab Now</a>
       </div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product2.jpg" class="card-img-top" alt="Product 2">
-        <div class="card-body text-center">
-          <h5 class="card-title">Casual Oversized Tee</h5>
-          <p class="card-text">₹799</p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
+    <!-- Offer 2 -->
+    <div class="col-md-6 col-lg-4">
+      <div class="offer-card p-4 text-center text-white" style="background: linear-gradient(135deg, #ff6a00, #ee0979); border-radius: 1rem;">
+        <h5 class="mb-2">🎉 Buy 1 Get 1 Free</h5>
+        <p>Women's Tops & Tees</p>
+        <a href="#" class="btn btn-light btn-sm mt-2">Shop Offer</a>
       </div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product3.jpg" class="card-img-top" alt="Product 3">
-        <div class="card-body text-center">
-          <h5 class="card-title">Women’s Blazer Suit</h5>
-          <p class="card-text">₹2,999</p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product4.jpg" class="card-img-top" alt="Product 4">
-        <div class="card-body text-center">
-          <h5 class="card-title">Black Street Hoodie</h5>
-          <p class="card-text">₹1,599</p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 5 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product5.jpg" class="card-img-top" alt="Product 5">
-        <div class="card-body text-center">
-          <h5 class="card-title">Relax Fit White Shirt</h5>
-          <p class="card-text">₹1,299</p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 6 -->
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100">
-        <img src="images/product6.jpg" class="card-img-top" alt="Product 6">
-        <div class="card-body text-center">
-          <h5 class="card-title">Mid-Rise Women Jeans</h5>
-          <p class="card-text">₹1,799</p>
-          <a href="#" class="btn btn-dark btn-sm">Shop Now</a>
-        </div>
+    <!-- Offer 3 -->
+    <div class="col-md-12 col-lg-4">
+      <div class="offer-card p-4 text-center text-white" style="background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b); border-radius: 1rem;">
+        <h5 class="mb-2">👟 Extra 25% OFF</h5>
+        <p>Stylique Sneakers & Footwear</p>
+        <a href="#" class="btn btn-light btn-sm mt-2">Explore</a>
       </div>
     </div>
 
   </div>
 </section>
+
 
 
 

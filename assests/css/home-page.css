@@ -119,50 +119,6 @@ body {
         height: 650px;
       }
     }
-    /*offer section style*/
-    .offer-section {
-    background: #f9f9f9;
-    }
-
-    .offer-box {
-      background: #fff;
-      border-radius: 20px;
-      padding: 30px 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease-in-out;
-      height: 100%;
-      border: 1px solid #f1f1f1;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .offer-box:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-      transform: translateY(-5px);
-    }
-
-    .offer-box i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: #e91e63;
-      transition: color 0.3s ease;
-    }
-
-    .offer-box:hover i {
-      color: #000;
-    }
-
-    .offer-box h5 {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: #222;
-    }
-
-    .offer-box p {
-      font-size: 0.95rem;
-      color: #555;
-    }
-
     /*featured section style*/
     /*heading style*/
     h3.fancy-heading {
@@ -191,4 +147,49 @@ body {
       background-color: #c2185b;
       color: #fff;
     }
+    .product-img-wrapper {
+    height: 300px; /* Adjust based on design */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f900;
+    border-radius: 0.5rem;
+    padding: 8px;
+    }
 
+  .product-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Use 'cover' if you want crop */
+    transition: transform 0.3s ease-in-out;
+    }
+
+  .product-img:hover {
+    transform: scale(1.05);
+    }
+/*offer section style*/
+  .offer-card {
+    transition: transform 0.3s ease-in-out;
+  }
+  .offer-card:hover {
+    transform: scale(1.03);
+  }
+  .offer-card h5 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.offer-card p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.offer-card a.btn {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 0.5rem 1.2rem;
+}
