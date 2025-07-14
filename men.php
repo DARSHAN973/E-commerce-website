@@ -2,21 +2,6 @@
 include 'includes/db.php';
 $activePage = 'men';
 include 'includes/navbar.php';
-
-$where = "category = 'men'";
-if (isset($_GET['price'])) {
-  $price = $_GET['price'];
-  if ($price == 'under-1000') {
-    $where .= " AND price < 1000";
-  } elseif ($price == '1000-1999') {
-    $where .= " AND price BETWEEN 1000 AND 1999";
-  } elseif ($price == '2000+') {
-    $where .= " AND price >= 2000";
-  }
-}
-
-/*$sql = "SELECT * FROM products WHERE category = 'mens' LIMIT 12";
-$result = mysqli_query($conn, $sql);*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,13 +23,11 @@ $result = mysqli_query($conn, $sql);*/
 </head>
 <body>
     <?php
-    include 'includes/filters.php';
     $heading = 'Mens Wear';
     $limit = 12;
-    $category = 'mens';
+    $category = 'men';
     include 'includes/product-grid.php';
-
-
+    include 'includes/footer.php';
     ?>
 </body>
 </html>

@@ -22,7 +22,9 @@ $result = mysqli_query($conn, $sql);
     ?>
     <div class="col-6 col-md-4 col-lg-3">
       <div class="card shadow-sm h-100">
-        <img src="<?php echo $row['image']; ?>" class="card-img-top product-img" alt="<?php echo $row['name']; ?>">
+        <div class="product-img-wrapper">
+          <img src="<?php echo $row['image']; ?>" class="product-img" alt="<?php echo $row['name']; ?>">
+        </div>
         <div class="card-body text-center">
           <h5 class="card-title"><?php echo $row['name']; ?></h5>
 
@@ -56,10 +58,10 @@ $result = mysqli_query($conn, $sql);
     letter-spacing: 1px;
     }
 
-    .card img {
-    height: 300px;
+    /*.card img {
+    /*height: 300px;
     object-fit: cover;
-    }
+    }*/
 
     .card h5 {
       font-weight: 600;
@@ -83,7 +85,7 @@ $result = mysqli_query($conn, $sql);
     padding: 8px;
     }
 
-  .product-img {
+   .product-img {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain; /* Use 'cover' if you want crop */
