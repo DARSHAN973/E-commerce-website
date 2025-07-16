@@ -1,9 +1,7 @@
 <?php
 $activePage = 'home';
 include 'includes/navbar.php';
-include 'includes/db.php';
-$sql = "SELECT * FROM products WHERE category = 'special' LIMIT 8";
-$result = mysqli_query($conn, $sql);
+include_once 'includes/db.php'; 
 ?>
 
 <!DOCTYPE html>
