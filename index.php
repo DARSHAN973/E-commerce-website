@@ -34,7 +34,7 @@ include_once 'includes/db.php';
       <div class="carousel-caption">
         <h2 class="text-shadow">The Summer Code</h2>
         <p class="text-shadow">Light layers. Clean cuts. Men’s essentials redefined.</p>
-        <a href="#" class="btn btn-dark">Shop Now</a>
+        <a href="men.php" class="btn btn-dark">Shop Now</a>
       </div>
     </div>
     <!-- Slide 2 -->
@@ -43,7 +43,7 @@ include_once 'includes/db.php';
       <div class="carousel-caption">
         <h2 class="text-shadow">Bold Femme</h2>
         <p class="text-shadow">Confidence in every step. Your boldest self, styled.</p>
-        <a href="#" class="btn btn-light">Explore</a>
+        <a href="women.php" class="btn btn-light">Explore</a>
       </div>
     </div>
     <!-- Slide 3 -->
@@ -52,7 +52,7 @@ include_once 'includes/db.php';
       <div class="carousel-caption">
         <h2 class="text-shadow">The Season Edit</h2>
         <p class="text-shadow">A curated collection for every style and every you.</p>
-        <a href="#" class="btn btn-light">Discover Now</a>
+        <a href="collection.php" class="btn btn-light">Discover Now</a>
       </div>
     </div>
 
