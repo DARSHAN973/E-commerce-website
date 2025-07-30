@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'includes/db.php';
 
 if (isset($_GET['id'])) {
@@ -37,6 +38,10 @@ if (isset($_GET['id'])) {
 </head>
 <body>
   <?php include 'includes/navbar.php'; ?>
+  
+  <!-- Include Auth Modal -->
+  <?php include 'includes/auth-modal.php'; ?>
+  
   <!-- Breadcrumb -->
     <div class="container mt-4">
   <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -64,9 +69,6 @@ if (isset($_GET['id'])) {
   </nav>
 </div>
 
-
-
-
   <div class="container py-5">
     <div class="row">
       <!-- Product Image -->
@@ -91,12 +93,19 @@ if (isset($_GET['id'])) {
 
         <p class="mt-3">In Stock: <strong><?php echo $product['stock']; ?></strong></p>
 
-        <form method="post" action="#">
+        <form id="addToCartForm">
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity</label>
             <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['stock']; ?>">
           </div>
-          <button type="submit" class="btn btn-dark px-4">Add to Cart</button>
+          <button type="submit" class="btn btn-dark px-4">
+            <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+          </button>
+          <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+            <a href="cart.php" class="btn btn-outline-dark px-4 ms-2">
+              <i class="fas fa-eye me-2"></i>View Cart
+            </a>
+          <?php endif; ?>
         </form>
       </div>
     </div>
@@ -130,7 +139,78 @@ if (isset($_GET['id'])) {
     </div>
   </div>
 </div>
+
+<!-- Success/Error Alert -->
+<div class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 9999; margin-top: 20px;">
+    <div id="productAlert" class="alert alert-dismissible fade" role="alert" style="display: none;">
+        <span id="productAlertMessage"></span>
+        <button type="button" class="btn-close" onclick="hideProductAlert()"></button>
+    </div>
+</div>
+
+<script>
+function showProductAlert(message, type) {
+    const alert = document.getElementById('productAlert');
+    const alertMessage = document.getElementById('productAlertMessage');
+    
+    alert.className = `alert alert-${type} alert-dismissible fade show`;
+    alertMessage.textContent = message;
+    alert.style.display = 'block';
+    
+    setTimeout(() => {
+        hideProductAlert();
+    }, 4000);
+}
+
+function hideProductAlert() {
+    const alert = document.getElementById('productAlert');
+    alert.style.display = 'none';
+}
+
+// Handle Add to Cart form submission
+document.getElementById('addToCartForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const quantity = document.getElementById('quantity').value;
+    const productId = <?php echo $product['id']; ?>;
+    
+    const formData = new FormData();
+    formData.append('action', 'add_to_cart');
+    formData.append('product_id', productId);
+    formData.append('quantity', quantity);
+    
+    fetch('includes/cart.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showProductAlert(data.message, 'success');
+            // Update cart count in navbar if needed
+            updateCartCount();
+        } else {
+            if (data.login_required) {
+                // Show login modal
+                var authModal = new bootstrap.Modal(document.getElementById('authModal'));
+                authModal.show();
+            } else {
+                showProductAlert(data.message, 'danger');
+            }
+        }
+    })
+    .catch(error => {
+        showProductAlert('Something went wrong. Please try again.', 'danger');
+    });
+});
+
+// Function to update cart count in navbar
+function updateCartCount() {
+    // This will be implemented when we update the navbar
+    console.log('Cart updated successfully');
+}
+</script>
+
     <?php include 'includes/footer.php'; ?>
 </body>
 </html>
-

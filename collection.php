@@ -2,6 +2,8 @@
 include 'includes/db.php';
 $activePage = 'collection';
 include 'includes/navbar.php';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -107,6 +107,7 @@ include_once 'includes/db.php';
         <p>Stylique Sneakers & Footwear</p>
         <a href="#" class="btn btn-light btn-sm mt-2">Explore</a>
       </div>
+      
     </div>
   </div>
 </section>
