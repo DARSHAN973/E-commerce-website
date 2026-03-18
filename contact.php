@@ -36,19 +36,19 @@ if ($_POST && isset($_POST['submit_contact'])) {
         );
         
         // Insert into database
-        $stmt = mysqli_prepare($conn, 
-            "INSERT INTO contact_submissions (id, name, email, phone, subject, message, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'new', NOW())"
-        );
-        mysqli_stmt_bind_param($stmt, "ssssss", $id, $name, $email, $phone, $subject, $message);
-        
-        if (mysqli_stmt_execute($stmt)) {
-            $success = true;
-            // Clear POST data so form fields are empty after success
-            $_POST = array();
-        } else {
+        try {
+            $stmt = $conn->prepare(
+                "INSERT INTO contact_submissions (id, name, email, phone, subject, message, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'new', NOW())"
+            );
+            if ($stmt->execute([$id, $name, $email, $phone, $subject, $message])) {
+                $success = true;
+                $_POST = array();
+            } else {
+                $error = 'Something went wrong. Please try again.';
+            }
+        } catch (PDOException $e) {
             $error = 'Something went wrong. Please try again.';
         }
-        mysqli_stmt_close($stmt);
     }
 }
 ?>

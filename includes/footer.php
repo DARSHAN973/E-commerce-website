@@ -56,8 +56,7 @@
     <hr class="border-secondary mt-5">
 
     <div class="d-flex justify-content-between small text-muted">
-      <p class="mb-0">&copy; 2025 Stylique. All rights reserved.</p>
-      <p class="mb-0">Made with ❤️ by Darshan</p>
+      <p class="mb-0">&copy; 2026 Stylique. All rights reserved.</p>
     </div>
   </div>
 </footer>

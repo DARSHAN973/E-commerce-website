@@ -9,15 +9,16 @@ if (!isset($category)) {
 
 include_once 'includes/db.php';
 
-$sql = "SELECT * FROM products WHERE category = '$category' LIMIT $limit";
-$result = mysqli_query($conn, $sql);
+$limit = intval($limit);
+$stmt = $conn->prepare("SELECT * FROM products WHERE category = ? LIMIT $limit");
+$stmt->execute([$category]);
 
 ?>
 
 <section class="container py-5">
   <h3 class="mb-4 text-center fancy-heading">✨ <?php echo ucfirst($heading); ?></h3>
   <div class="row g-4">
-    <?php while ($row = mysqli_fetch_assoc($result)) {
+    <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $finalPrice = $row['price'] - $row['discount'];
     ?>
     <div class="col-6 col-md-4 col-lg-3">

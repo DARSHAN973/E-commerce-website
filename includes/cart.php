@@ -24,33 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Check if product exists and has enough stock
-        $product_check = "SELECT id, name, stock FROM products WHERE id = ?";
-        $stmt = mysqli_prepare($conn, $product_check);
-        mysqli_stmt_bind_param($stmt, "i", $product_id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        
-        if (mysqli_num_rows($result) === 0) {
+        $stmt = $conn->prepare("SELECT id, name, stock FROM products WHERE id = ?");
+        $stmt->execute([$product_id]);
+        $product = $stmt->fetch();
+        if (!$product) {
             echo json_encode(['success' => false, 'message' => 'Product not found!']);
             exit;
         }
-        
-        $product = mysqli_fetch_assoc($result);
         if ($product['stock'] < $quantity) {
             echo json_encode(['success' => false, 'message' => 'Not enough stock available!']);
             exit;
         }
         
         // Check if item already exists in cart
-        $cart_check = "SELECT id, quantity FROM cart WHERE user_id = ? AND product_id = ?";
-        $stmt = mysqli_prepare($conn, $cart_check);
-        mysqli_stmt_bind_param($stmt, "ii", $user_id, $product_id);
-        mysqli_stmt_execute($stmt);
-        $cart_result = mysqli_stmt_get_result($stmt);
-        
-        if (mysqli_num_rows($cart_result) > 0) {
+        $stmt = $conn->prepare("SELECT id, quantity FROM cart WHERE user_id = ? AND product_id = ?");
+        $stmt->execute([$user_id, $product_id]);
+        $cart_item = $stmt->fetch();
+
+        if ($cart_item) {
             // Update existing cart item
-            $cart_item = mysqli_fetch_assoc($cart_result);
             $new_quantity = $cart_item['quantity'] + $quantity;
             
             if ($new_quantity > $product['stock']) {
@@ -58,22 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
             
-            $update_cart = "UPDATE cart SET quantity = ? WHERE id = ?";
-            $stmt = mysqli_prepare($conn, $update_cart);
-            mysqli_stmt_bind_param($stmt, "ii", $new_quantity, $cart_item['id']);
-            
-            if (mysqli_stmt_execute($stmt)) {
+            $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE id = ?");
+            if ($stmt->execute([$new_quantity, $cart_item['id']])) {
                 echo json_encode(['success' => true, 'message' => 'Cart updated successfully!']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to update cart!']);
             }
         } else {
             // Add new item to cart
-            $add_to_cart = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $add_to_cart);
-            mysqli_stmt_bind_param($stmt, "iii", $user_id, $product_id, $quantity);
-            
-            if (mysqli_stmt_execute($stmt)) {
+            $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)");
+            if ($stmt->execute([$user_id, $product_id, $quantity])) {
                 echo json_encode(['success' => true, 'message' => 'Item added to cart successfully!']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to add item to cart!']);
@@ -86,22 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($quantity <= 0) {
             // Remove item if quantity is 0 or less
-            $remove_item = "DELETE FROM cart WHERE id = ? AND user_id = ?";
-            $stmt = mysqli_prepare($conn, $remove_item);
-            mysqli_stmt_bind_param($stmt, "ii", $cart_id, $user_id);
-            
-            if (mysqli_stmt_execute($stmt)) {
+            $stmt = $conn->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
+            if ($stmt->execute([$cart_id, $user_id])) {
                 echo json_encode(['success' => true, 'message' => 'Item removed from cart!']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to remove item!']);
             }
         } else {
             // Update quantity
-            $update_cart = "UPDATE cart SET quantity = ? WHERE id = ? AND user_id = ?";
-            $stmt = mysqli_prepare($conn, $update_cart);
-            mysqli_stmt_bind_param($stmt, "iii", $quantity, $cart_id, $user_id);
-            
-            if (mysqli_stmt_execute($stmt)) {
+            $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE id = ? AND user_id = ?");
+            if ($stmt->execute([$quantity, $cart_id, $user_id])) {
                 echo json_encode(['success' => true, 'message' => 'Cart updated successfully!']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to update cart!']);
@@ -110,12 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     } elseif ($action === 'remove_from_cart') {
         $cart_id = intval($_POST['cart_id']);
-        
-        $remove_item = "DELETE FROM cart WHERE id = ? AND user_id = ?";
-        $stmt = mysqli_prepare($conn, $remove_item);
-        mysqli_stmt_bind_param($stmt, "ii", $cart_id, $user_id);
-        
-        if (mysqli_stmt_execute($stmt)) {
+        $stmt = $conn->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
+        if ($stmt->execute([$cart_id, $user_id])) {
             echo json_encode(['success' => true, 'message' => 'Item removed from cart!']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to remove item!']);
@@ -130,12 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Helper function to get cart count
 function getCartCount($user_id, $conn) {
-    $cart_count = "SELECT SUM(quantity) as total FROM cart WHERE user_id = ?";
-    $stmt = mysqli_prepare($conn, $cart_count);
-    mysqli_stmt_bind_param($stmt, "i", $user_id);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $count = mysqli_fetch_assoc($result);
-    return $count['total'] ?? 0;
+    $stmt = $conn->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    $row = $stmt->fetch();
+    return $row['total'] ?? 0;
 }
 ?>

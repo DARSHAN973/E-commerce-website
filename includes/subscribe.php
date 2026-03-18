@@ -2,21 +2,21 @@
 include 'db.php'; 
 
 if (isset($_POST['email'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $email = trim($_POST['email']);
 
-    // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script>alert('Please enter a valid email address!'); window.history.back();</script>";
         exit;
     }
 
     // Check if already subscribed
-    $check = mysqli_query($conn, "SELECT * FROM subscribers WHERE email = '$email'");
-    if (mysqli_num_rows($check) > 0) {
+    $stmt = $conn->prepare("SELECT id FROM subscribers WHERE email = ?");
+    $stmt->execute([$email]);
+    if ($stmt->fetch()) {
         echo "<script>alert('You are already subscribed!'); window.history.back();</script>";
     } else {
-        $sql = "INSERT INTO subscribers (email) VALUES ('$email')";
-        if (mysqli_query($conn, $sql)) {
+        $stmt = $conn->prepare("INSERT INTO subscribers (email) VALUES (?)");
+        if ($stmt->execute([$email])) {
             echo "<script>alert('🎉 Subscribed to Stylique!'); window.location.href='../index.php';</script>";
         } else {
             echo "<script>alert('Something went wrong!'); window.history.back();</script>";

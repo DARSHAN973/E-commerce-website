@@ -11,15 +11,13 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 $user_id = $_SESSION['user_id'];
 
 // Get cart items
-$cart_query = "SELECT c.id as cart_id, c.quantity, p.id, p.name, p.price, p.discount, p.image, p.stock 
-               FROM cart c 
-               JOIN products p ON c.product_id = p.id 
-               WHERE c.user_id = ? 
-               ORDER BY c.added_at DESC";
-$stmt = mysqli_prepare($conn, $cart_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$cart_items = mysqli_stmt_get_result($stmt);
+$stmt = $conn->prepare("SELECT c.id as cart_id, c.quantity, p.id, p.name, p.price, p.discount, p.image, p.stock
+               FROM cart c
+               JOIN products p ON c.product_id = p.id
+               WHERE c.user_id = ?
+               ORDER BY c.added_at DESC");
+$stmt->execute([$user_id]);
+$cart_items = $stmt->fetchAll();
 
 $activePage = 'cart';
 include 'includes/navbar.php';
@@ -72,14 +70,14 @@ include 'includes/navbar.php';
     <div class="container py-5">
         <h2 class="mb-4"><i class="fas fa-shopping-cart me-2"></i>Your Shopping Cart</h2>
         
-        <?php if (mysqli_num_rows($cart_items) > 0): ?>
+        <?php if (count($cart_items) > 0): ?>
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
                             <?php 
                             $total = 0;
-                            while ($item = mysqli_fetch_assoc($cart_items)): 
+                            foreach ($cart_items as $item): 
                                 $discounted_price = $item['price'] - $item['discount'];
                                 $item_total = $discounted_price * $item['quantity'];
                                 $total += $item_total;
@@ -117,7 +115,7 @@ include 'includes/navbar.php';
                                     </div>
                                 </div>
                             </div>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

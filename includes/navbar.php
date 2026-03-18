@@ -8,12 +8,9 @@ include_once 'includes/db.php';
 $cart_count = 0;
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
     $user_id = $_SESSION['user_id'];
-    $cart_count_query = "SELECT SUM(quantity) as total FROM cart WHERE user_id = ?";
-    $stmt = mysqli_prepare($conn, $cart_count_query);
-    mysqli_stmt_bind_param($stmt, "i", $user_id);
-    mysqli_stmt_execute($stmt);
-    $cart_result = mysqli_stmt_get_result($stmt);
-    $cart_data = mysqli_fetch_assoc($cart_result);
+  $stmt = $conn->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?");
+  $stmt->execute([$user_id]);
+  $cart_data = $stmt->fetch();
     $cart_count = $cart_data['total'] ?? 0;
 }
 ?>

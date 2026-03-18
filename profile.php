@@ -11,12 +11,9 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 $user_id = $_SESSION['user_id'];
 
 // Get user details from database (fresh data)
-$user_query = "SELECT * FROM login_data WHERE id = ?";
-$stmt = mysqli_prepare($conn, $user_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$user_result = mysqli_stmt_get_result($stmt);
-$user = mysqli_fetch_assoc($user_result);
+$stmt = $conn->prepare("SELECT * FROM login_data WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
 
 // Check if user exists
 if (!$user) {
@@ -25,36 +22,28 @@ if (!$user) {
     exit;
 }
 
-// Get user's recent orders (fixed query - removed order_number)
-$orders_query = "SELECT o.id, o.total_amount, o.status, o.created_at,
+// Get user's recent orders
+$stmt = $conn->prepare("SELECT o.id, o.total_amount, o.status, o.created_at,
                  COUNT(oi.id) as item_count
-                 FROM orders o 
-                 LEFT JOIN order_items oi ON o.id = oi.order_id 
-                 WHERE o.user_id = ? 
-                 GROUP BY o.id 
-                 ORDER BY o.created_at DESC 
-                 LIMIT 5";
-$stmt = mysqli_prepare($conn, $orders_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$recent_orders = mysqli_stmt_get_result($stmt);
+                 FROM orders o
+                 LEFT JOIN order_items oi ON o.id = oi.order_id
+                 WHERE o.user_id = ?
+                 GROUP BY o.id
+                 ORDER BY o.created_at DESC
+                 LIMIT 5");
+$stmt->execute([$user_id]);
+$recent_orders = $stmt->fetchAll();
 
 // Get total orders count
-$total_orders_query = "SELECT COUNT(*) as total FROM orders WHERE user_id = ?";
-$stmt = mysqli_prepare($conn, $total_orders_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$total_orders_result = mysqli_stmt_get_result($stmt);
-$total_orders_data = mysqli_fetch_assoc($total_orders_result);
+$stmt = $conn->prepare("SELECT COUNT(*) as total FROM orders WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$total_orders_data = $stmt->fetch();
 $total_orders = $total_orders_data['total'] ?? 0;
 
 // Get cart count
-$cart_count_query = "SELECT SUM(quantity) as total FROM cart WHERE user_id = ?";
-$stmt = mysqli_prepare($conn, $cart_count_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$cart_result = mysqli_stmt_get_result($stmt);
-$cart_data = mysqli_fetch_assoc($cart_result);
+$stmt = $conn->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$cart_data = $stmt->fetch();
 $cart_count = $cart_data['total'] ?? 0;
 
 $activePage = 'profile';
@@ -158,7 +147,7 @@ include 'includes/navbar.php';
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h5 class="mb-3"><i class="fas fa-history me-2"></i>Recent Orders</h5>
-                        <?php if (mysqli_num_rows($recent_orders) > 0): ?>
+                        <?php if (count($recent_orders) > 0): ?>
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
@@ -171,7 +160,7 @@ include 'includes/navbar.php';
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php while ($order = mysqli_fetch_assoc($recent_orders)): ?>
+                                        <?php foreach ($recent_orders as $order): ?>
                                         <tr>
                                             <td>#<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></td>
                                             <td><?php echo $order['item_count']; ?> items</td>
@@ -187,7 +176,7 @@ include 'includes/navbar.php';
                                             </td>
                                             <td><?php echo date('M d, Y', strtotime($order['created_at'])); ?></td>
                                         </tr>
-                                        <?php endwhile; ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>

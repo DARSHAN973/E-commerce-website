@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+  --stylique-primary: #c2185b;
+  --stylique-primary-dark: #a91650;
+  --stylique-light: #f7f8fb;
+  --stylique-card: #ffffff;
+  --stylique-text: #1e1e24;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--stylique-text);
+}
+
+.admin-auth-bg,
+.admin-dashboard-bg {
+  background: linear-gradient(135deg, #f9fafc 0%, #f1f3f9 50%, #eef2f7 100%);
+  min-height: 100vh;
+}
+
+.admin-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.admin-brand .dot {
+  color: var(--stylique-primary);
+}
+
+.admin-card {
+  border-radius: 16px;
+}
+
+.form-control:focus {
+  border-color: var(--stylique-primary);
+  box-shadow: 0 0 0 0.2rem rgba(194, 24, 91, 0.2);
+}
+
+.btn-admin {
+  background: linear-gradient(135deg, var(--stylique-primary), #e91e63);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.btn-admin:hover {
+  color: #fff;
+  background: linear-gradient(135deg, var(--stylique-primary-dark), var(--stylique-primary));
+}
+
+.admin-stat-card {
+  background: var(--stylique-card);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  height: 100%;
+}
+
+.admin-stat-card i {
+  font-size: 1.4rem;
+  color: var(--stylique-primary);
+}
+
+.admin-nav .nav-link {
+  color: #4b4b55;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.admin-nav .nav-link.active {
+  background: linear-gradient(135deg, var(--stylique-primary), #e91e63);
+  color: #fff;
+}
+
+table td,
+table th {
+  vertical-align: middle;
+}
+
+.badge-status {
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.4rem 0.6rem;
+}
+
+.status-pending,
+.status-new {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-shipped,
+.status-read {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.status-delivered,
+.status-replied {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-cancelled {
+  background: #f8d7da;
+  color: #842029;
+}

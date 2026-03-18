@@ -11,12 +11,9 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 $user_id = $_SESSION['user_id'];
 
 // Get user details
-$user_query = "SELECT * FROM login_data WHERE id = ?";
-$stmt = mysqli_prepare($conn, $user_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$user_result = mysqli_stmt_get_result($stmt);
-$user = mysqli_fetch_assoc($user_result);
+$stmt = $conn->prepare("SELECT * FROM login_data WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
 
 // Check if user exists
 if (!$user) {
@@ -27,20 +24,18 @@ if (!$user) {
 }
 
 // Get cart items
-$cart_query = "SELECT c.id as cart_id, c.quantity, p.id, p.name, p.price, p.discount, p.image, p.stock 
-               FROM cart c 
-               JOIN products p ON c.product_id = p.id 
-               WHERE c.user_id = ? 
-               ORDER BY c.added_at DESC";
-$stmt = mysqli_prepare($conn, $cart_query);
-mysqli_stmt_bind_param($stmt, "i", $user_id);
-mysqli_stmt_execute($stmt);
-$cart_items = mysqli_stmt_get_result($stmt);
+$stmt = $conn->prepare("SELECT c.id as cart_id, c.quantity, p.id, p.name, p.price, p.discount, p.image, p.stock
+               FROM cart c
+               JOIN products p ON c.product_id = p.id
+               WHERE c.user_id = ?
+               ORDER BY c.added_at DESC");
+$stmt->execute([$user_id]);
+$cart_items = $stmt->fetchAll();
 
 // Calculate totals
 $subtotal = 0;
 $cart_items_array = [];
-while ($item = mysqli_fetch_assoc($cart_items)) {
+foreach ($cart_items as $item) {
     $discounted_price = $item['price'] - $item['discount'];
     $item_total = $discounted_price * $item['quantity'];
     $subtotal += $item_total;

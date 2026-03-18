@@ -3,13 +3,11 @@ session_start();
 include 'includes/db.php';
 
 if (isset($_GET['id'])) {
-  $id = intval($_GET['id']);
-  $sql = "SELECT * FROM products WHERE id = $id";
-  $result = mysqli_query($conn, $sql);
-
-  if (mysqli_num_rows($result) > 0) {
-    $product = mysqli_fetch_assoc($result);
-  } else {
+  $id   = intval($_GET['id']);
+  $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+  $stmt->execute([$id]);
+  $product = $stmt->fetch();
+  if (!$product) {
     echo "Product not found!";
     exit;
   }

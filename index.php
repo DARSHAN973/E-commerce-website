@@ -2,6 +2,40 @@
 $activePage = 'home';
 include 'includes/navbar.php';
 include_once 'includes/db.php'; 
+
+$banners = [];
+try {
+  $stmt = $conn->query("SELECT title, subtitle, button_text, button_link, image_url FROM home_banners WHERE is_active = TRUE ORDER BY sort_order ASC, id ASC");
+  $banners = $stmt->fetchAll();
+} catch (Throwable $e) {
+  $banners = [];
+}
+
+if (count($banners) === 0) {
+  $banners = [
+    [
+      'title' => 'The Summer Code',
+      'subtitle' => 'Light layers. Clean cuts. Men\'s essentials redefined.',
+      'button_text' => 'Shop Now',
+      'button_link' => 'men.php',
+      'image_url' => 'images/summer collation.jpg',
+    ],
+    [
+      'title' => 'Bold Femme',
+      'subtitle' => 'Confidence in every step. Your boldest self, styled.',
+      'button_text' => 'Explore',
+      'button_link' => 'women.php',
+      'image_url' => 'images/bold femme.jpg',
+    ],
+    [
+      'title' => 'The Season Edit',
+      'subtitle' => 'A curated collection for every style and every you.',
+      'button_text' => 'Discover Now',
+      'button_link' => 'collection.php',
+      'image_url' => 'images/collection.jpg',
+    ],
+  ];
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,33 +62,16 @@ include_once 'includes/db.php';
   <!--slider-->
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
-    <!-- Slide 1 -->
-    <div class="carousel-item active">
-      <img src="images/summer collation.jpg" class="d-block w-100 image-fluid" alt="Men’s Summer Collection">
-      <div class="carousel-caption">
-        <h2 class="text-shadow">The Summer Code</h2>
-        <p class="text-shadow">Light layers. Clean cuts. Men’s essentials redefined.</p>
-        <a href="men.php" class="btn btn-dark">Shop Now</a>
+    <?php foreach ($banners as $i => $banner): ?>
+      <div class="carousel-item <?php echo $i === 0 ? 'active' : ''; ?>">
+        <img src="<?php echo htmlspecialchars($banner['image_url']); ?>" class="d-block w-100 image-fluid" alt="<?php echo htmlspecialchars($banner['title']); ?>">
+        <div class="carousel-caption">
+          <h2 class="text-shadow"><?php echo htmlspecialchars($banner['title']); ?></h2>
+          <p class="text-shadow"><?php echo htmlspecialchars($banner['subtitle']); ?></p>
+          <a href="<?php echo htmlspecialchars($banner['button_link'] ?: '#'); ?>" class="btn btn-light"><?php echo htmlspecialchars($banner['button_text'] ?: 'Explore'); ?></a>
+        </div>
       </div>
-    </div>
-    <!-- Slide 2 -->
-    <div class="carousel-item">
-      <img src="images/bold femme.jpg" class="d-block w-100 image-fluid" alt="Women's Collection">
-      <div class="carousel-caption">
-        <h2 class="text-shadow">Bold Femme</h2>
-        <p class="text-shadow">Confidence in every step. Your boldest self, styled.</p>
-        <a href="women.php" class="btn btn-light">Explore</a>
-      </div>
-    </div>
-    <!-- Slide 3 -->
-    <div class="carousel-item">
-      <img src="images/collection.jpg" class="d-block w-100 image-fluid " alt="Seasonal Collection">
-      <div class="carousel-caption">
-        <h2 class="text-shadow">The Season Edit</h2>
-        <p class="text-shadow">A curated collection for every style and every you.</p>
-        <a href="collection.php" class="btn btn-light">Discover Now</a>
-      </div>
-    </div>
+    <?php endforeach; ?>
 
   </div>
 
