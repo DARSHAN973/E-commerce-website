@@ -128,14 +128,25 @@ if (count($banners) === 0) {
     </div>
   </div>
 </section>
-<!--Brands We Work With-->
-  <section class="container py-5 text-center">
-  <h5 class="mb-4 text-uppercase text-muted">Trusted by top fashion brands</h5>
-  <div class="d-flex justify-content-center flex-wrap gap-4">
-    <img src="images/adidas.png" alt="Brand 1" height="40">
-    <img src="images/h&m.png" alt="Brand 2" height="40">
-    <img src="images/nike.png" alt="Brand 3" height="40">
-    <img src="images/zara.png" alt="Brand 4" height="40">
+<!-- Trusted Brands -->
+<section class="trusted-brands-section py-5">
+  <div class="container text-center">
+    <p class="trusted-label mb-2">Trusted by top fashion brands</p>
+    <h3 class="trusted-title mb-4">Our Style Network</h3>
+    <div class="trusted-logos" role="list" aria-label="Top fashion brands">
+      <div class="trusted-logo-item" role="listitem">
+        <img src="images/Adidas.png" alt="Adidas logo" loading="lazy">
+      </div>
+      <div class="trusted-logo-item" role="listitem">
+        <img src="images/H&M.png" alt="H and M logo" loading="lazy">
+      </div>
+      <div class="trusted-logo-item" role="listitem">
+        <img src="images/Nike.png" alt="Nike logo" loading="lazy">
+      </div>
+      <div class="trusted-logo-item" role="listitem">
+        <img src="images/Zara.png" alt="Zara logo" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 <!--email subscription-->
