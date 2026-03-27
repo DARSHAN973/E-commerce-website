@@ -309,6 +309,11 @@ function pageActive(string $page, string $want): string { return $page === $want
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </head>
 <body class="admin-dashboard-bg">
+<!-- Loading Screen -->
+<div id="stylique-loader">
+  <div class="loader-brand">Stylique<span class="dot">.</span> Admin</div>
+  <div class="loader-spinner"></div>
+</div>
 <nav class="navbar navbar-expand-lg bg-light shadow-sm sticky-top">
     <div class="container-fluid px-4">
         <span class="navbar-brand admin-brand mb-0">Stylique<span class="dot">.</span> Admin</span>
@@ -669,6 +674,15 @@ function viewContact(c) {
         '</div>';
     new bootstrap.Modal(document.getElementById('contactModal')).show();
 }
+
+  // Loading screen
+  window.addEventListener('load', function() {
+    var loader = document.getElementById('stylique-loader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      setTimeout(function() { loader.style.display = 'none'; }, 450);
+    }
+  });
 </script>
 
 </main>

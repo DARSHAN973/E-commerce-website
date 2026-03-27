@@ -213,9 +213,53 @@ body {
         text-decoration: none;
     }
 
+    /* ── Loading Screen ── */
+    #stylique-loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+    #stylique-loader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+    #stylique-loader .loader-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #c2185b;
+      letter-spacing: 2px;
+      margin-bottom: 1.25rem;
+    }
+    #stylique-loader .loader-brand .dot {
+      color: #c2185b;
+    }
+    #stylique-loader .loader-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #f8d7e5;
+      border-top: 4px solid #c2185b;
+      border-radius: 50%;
+      animation: stylique-spin 0.8s linear infinite;
+    }
+    @keyframes stylique-spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+<!-- Loading Screen -->
+<div id="stylique-loader">
+  <div class="loader-brand">Stylique<span class="dot">.</span></div>
+  <div class="loader-spinner"></div>
+</div>
 <!--navbar-->
     <nav class="navbar navbar-expand-lg bg-light shadow-sm py-3 sticky-top">
     <div class="container">
@@ -383,6 +427,15 @@ body {
       });
     }
   }
+
+  // Loading screen
+  window.addEventListener('load', function() {
+    var loader = document.getElementById('stylique-loader');
+    if (loader) {
+      loader.classList.add('fade-out');
+      setTimeout(function() { loader.style.display = 'none'; }, 450);
+    }
+  });
   </script>
   
 </body>
