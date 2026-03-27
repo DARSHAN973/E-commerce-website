@@ -239,10 +239,10 @@ body {
       <!-- Icons row, always visible and responsive -->
       <div class="d-flex flex-row justify-content-end align-items-center gap-3 py-2">
         <!-- Search Bar -->
-        <form class="d-none d-lg-flex" role="search">
+        <form class="d-none d-lg-flex" role="search" method="GET" action="search.php">
         <div class="input-group input-group-sm">
-          <input class="form-control border-end-0 rounded-pill" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-secondary border-start-0 rounded-pill ms-n3" type="submit">
+          <input class="form-control border-end-0 rounded-pill" type="search" placeholder="Search products..." name="q" aria-label="Search" required>
+          <button class="btn btn-primary border-start-0 rounded-pill ms-n3" type="submit">
             <i class="fas fa-search"></i>
           </button>
         </div>
@@ -250,10 +250,10 @@ body {
       
       <!-- Mobile Search Box -->
       <div id="mobileSearchBox" class="d-lg-none" style="display:none;">
-        <form class="py-2 px-3" role="search">
+        <form class="py-2 px-3" role="search" method="GET" action="search.php">
           <div class="input-group input-group-sm">
-            <input class="form-control border-end-0 rounded-pill" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-secondary border-start-0 rounded-pill ms-n3" type="submit">
+            <input class="form-control border-end-0 rounded-pill" type="search" placeholder="Search products..." name="q" aria-label="Search" required>
+            <button class="btn btn-primary border-start-0 rounded-pill ms-n3" type="submit">
               <i class="fas fa-search"></i>
             </button>
           </div>

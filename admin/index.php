@@ -123,9 +123,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($action === 'delete_product') {
-            $stmt = $conn->prepare('DELETE FROM products WHERE id = ?');
-            $stmt->execute([intval($_POST['id'] ?? 0)]);
-            $flash = 'Product deleted.';
+            try {
+                // Soft delete: archive the product instead of removing it
+                $stmt = $conn->prepare('UPDATE products SET is_active = FALSE WHERE id = ?');
+                $stmt->execute([intval($_POST['id'] ?? 0)]);
+                $flash = 'Product archived.';
+            } catch (PDOException $e) {
+                $error = 'Failed to archive product. ' . $e->getMessage();
+            }
             $page = 'products';
         }
 
@@ -280,7 +285,7 @@ $stats = [
     'revenue' => (float) dbScalar($conn, "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE status <> 'cancelled'"),
 ];
 
-$products = dbRows($conn, 'SELECT * FROM products ORDER BY id DESC LIMIT 200');
+$products = dbRows($conn, 'SELECT * FROM products WHERE is_active = TRUE ORDER BY id DESC LIMIT 200');
 $users = dbRows($conn, 'SELECT * FROM login_data ORDER BY id DESC LIMIT 200');
 $orders = dbRows($conn, 'SELECT * FROM orders ORDER BY created_at DESC LIMIT 200');
 $contacts = dbRows($conn, 'SELECT * FROM contact_submissions ORDER BY created_at DESC LIMIT 200');
