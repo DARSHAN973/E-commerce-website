@@ -60,10 +60,7 @@ include 'includes/navbar.php';
 
         <?php if (!empty($searchResults)): ?>
             <div class="row">
-                <?php 
-                include 'includes/product-grid.php';
-                foreach ($searchResults as $product):
-                ?>
+                <?php foreach ($searchResults as $product): ?>
                     <div class="col-md-3 col-sm-6 col-12 mb-4">
                         <div class="card h-100 border-0 shadow-sm hover-card">
                             <div class="card-img-top position-relative overflow-hidden" style="height: 250px;">

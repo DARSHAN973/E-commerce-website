@@ -1,15 +1,15 @@
 <?php
-$heading = $heading ?? ucfirst($category) ;
-$limit = $limit ?? 12;
+$category = isset($category) ? trim((string) $category) : '';
+$heading = isset($heading) && $heading !== '' ? (string) $heading : ucfirst($category);
+$limit = isset($limit) ? (int) $limit : 12;
 
-if (!isset($category)) {
+if ($category === '') {
   echo "<p class='text-danger text-center'>No category specified!</p>";
   return;
 }
 
 include_once 'includes/db.php';
 
-$limit = intval($limit);
 $stmt = $conn->prepare("SELECT * FROM products WHERE category = ? LIMIT $limit");
 $stmt->execute([$category]);
 
